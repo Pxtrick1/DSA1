@@ -1,0 +1,119 @@
+# Phonebook Application using Python
+
+# List to store contacts
+contacts = []
+
+# 1. Insert a new contact
+def insert_contact(name, phone, email):
+    contact = {'name': name, 'phone': phone, 'email': email}
+    contacts.append(contact)
+    print(f"Contact '{name}' added successfully!")
+
+# 2. Search for a contact by name
+def search_contact(name):
+    for contact in contacts:
+        if contact['name'].lower() == name.lower():
+            return contact
+    return None
+
+# 3. Display all contacts
+def display_contacts():
+    if not contacts:
+        print("Phonebook is empty.")
+    else:
+        print("Contacts List:")
+        for contact in contacts:
+            print(f"Name: {contact['name']}, Phone: {contact['phone']}, Email: {contact['email']}")
+
+# 4. Delete a contact by name
+def delete_contact(name):
+    for i, contact in enumerate(contacts):
+        if contact['name'].lower() == name.lower():
+            contacts.pop(i)
+            print(f"Contact '{name}' deleted successfully!")
+            return
+    print(f"Contact '{name}' not found.")
+
+# 5. Update contact information
+def update_contact(name, new_phone=None, new_email=None):
+    for contact in contacts:
+        if contact['name'].lower() == name.lower():
+            if new_phone:
+                contact['phone'] = new_phone
+            if new_email:
+                contact['email'] = new_email
+            print(f"Contact '{name}' updated successfully!")
+            return
+    print(f"Contact '{name}' not found.")
+
+# 6. Sort contacts alphabetically by name
+def sort_contacts():
+    contacts.sort(key=lambda contact: contact['name'].lower())
+    print("Contacts sorted by name.")
+
+# 7. Analyze search efficiency
+def analyze_search(name):
+    comparisons = 0
+    for contact in contacts:
+        comparisons += 1
+        if contact['name'].lower() == name.lower():
+            print(f"Contact found after {comparisons} comparisons.")
+            return contact
+    print(f"Contact not found after {comparisons} comparisons.")
+    return None
+
+# Driver Code: Menu-based Interface
+if __name__ == "__main__":
+    while True:
+        print("\nPhonebook Menu:")
+        print("1. Insert Contact")
+        print("2. Search Contact")
+        print("3. Display All Contacts")
+        print("4. Delete Contact")
+        print("5. Update Contact")
+        print("6. Sort Contacts")
+        print("7. Analyze Search Efficiency")
+        print("8. Exit")
+
+        choice = input("Enter your choice (1-8): ")
+
+        if choice == '1':
+            name = input("Enter name: ")
+            phone = input("Enter phone: ")
+            email = input("Enter email: ")
+            insert_contact(name, phone, email)
+
+        elif choice == '2':
+            name = input("Enter name to search: ")
+            contact = search_contact(name)
+            if contact:
+                print(f"Found Contact: {contact}")
+            else:
+                print("Contact not found.")
+
+        elif choice == '3':
+            display_contacts()
+
+        elif choice == '4':
+            name = input("Enter name to delete: ")
+            delete_contact(name)
+
+        elif choice == '5':
+            name = input("Enter name to update: ")
+            new_phone = input("Enter new phone (leave blank to skip): ")
+            new_email = input("Enter new email (leave blank to skip): ")
+            update_contact(name, new_phone or None, new_email or None)
+
+        elif choice == '6':
+            sort_contacts()
+
+        elif choice == '7':
+            name = input("Enter name to analyze search efficiency: ")
+            analyze_search(name)
+
+        elif choice == '8':
+            print("Exiting Phonebook. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
